@@ -12,9 +12,8 @@ struct process {
 
 
 int leader_election(struct process p, int size) {
-    int buf;
-    int imsg[1];
-    int omsg[1];
+    int imsg;
+    int omsg;
     int leader;
     MPI_Status status;
     MPI_Request request;
@@ -24,7 +23,8 @@ int leader_election(struct process p, int size) {
         print_info(p.id, "Waiting for leader election");
         MPI_Recv(&omsg, size,  MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
         print_info(p.id, "Getting the leader");
-        p.leader = omsg[0];
+        p.leader = omsg;
+        leader = omsg;
 
     }
     else {
@@ -39,23 +39,23 @@ int leader_election(struct process p, int size) {
                 MPI_Recv(&imsg, 1, MPI_INT, (p.id-1)%size, 1, MPI_COMM_WORLD, &status);
 
             print_info(p.id, "Receive message");
-            std::cout << imsg[0] << std::endl;
+            std::cout << imsg << std::endl;
 
-            if (imsg[0] == p.id) {
+            if (imsg == p.id) {
                 leader = p.id;
                 print_info(p.id, "This is the leader !!!!");
                 MPI_Send(&p.id, 1, MPI_INT, 0, 1, MPI_COMM_WORLD);
                 break;
             }
 
-            if (p.leader == imsg[0]) {
+            if (p.leader == imsg) {
                 break;
             }
 
-            omsg[0] = p.id;
-            if (imsg[0] < p.id) {
-                omsg[0] = imsg[0];
-                p.leader = imsg[0];
+            omsg = p.id;
+            if (imsg < p.id) {
+                omsg = imsg;
+                p.leader = imsg;
             }
 
 
@@ -69,6 +69,7 @@ int leader_election(struct process p, int size) {
         else
             MPI_Send(&omsg, 1, MPI_INT, 1, 1, MPI_COMM_WORLD);
     }
+    return leader;
 
 }
 
