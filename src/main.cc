@@ -29,11 +29,11 @@ int main(int argc, char** argv) {
     }
 
     else if (rank == leader) {
-      auto p = Leader(rank, size);
+      auto p = Leader(rank, size, leader);
     }
 
     else {
-      auto p = File(rank, size);
+      auto p = File(rank, size, leader);
     }
 
 
