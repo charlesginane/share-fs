@@ -2,6 +2,7 @@
 
 #include "mpi.h"
 
+#include "file-system/fs.hh"
 #include "print-message.hh"
 #include "file-system/process.hh"
 #include "leader-election.hh"
@@ -37,7 +38,13 @@ int main(int argc, char** argv) {
       p = new File(rank, size, leader);
     }
 
-    //create(rank, )
+    std::string t = "test";
+    if (rank == leader) {
+        chief_recv(p);
+    }
+    else {
+      create(p, t);
+    }
     delete p;
     MPI_Finalize();
 
