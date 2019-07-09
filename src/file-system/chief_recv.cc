@@ -13,6 +13,13 @@ void chief_recv(Process *p)
     switch (action)
     {
     case WRITE_CODE:
+      int name_size, content_size;
+      MPI_Recv(&name_size, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_IGNORE_STATUS);
+      char name[name_size];
+      MPI_Recv(&name, name_size, MPI_BYTE, 0, 0, MPI_COMM_WORLD, MPI_IGNORE_STATUS);
+      MPI_Recv(&content_size, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_IGNORE_STATUS);
+      char content[content_size];
+      MPI_Recv(&content, content_size, MPI_BYTE, 0, 0, MPI_COMM_WORLD, MPI_IGNORE_STATUS);
       break;
 
     case READ_CODE:
