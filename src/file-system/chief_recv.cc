@@ -72,6 +72,29 @@ void chief_recv(Process *p)
       break;
 
     case REMOVE_CODE:
+    {
+      int t = 0;
+      int name_size;
+      //Contact client
+      MPI_Send(&t, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+
+      MPI_Recv(&name_size, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+      MPI_Send(&t, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+
+      char filename[name_size];
+      MPI_Recv(&filename, name_size, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
+
+      //Contact process
+      auto id_process = c->location.find(filename)->second;
+
+      
+      MPI_Send(0, 1, MPI_INT, id_process, 0, MPI_COMM_WORLD);
+      MPI_Recv(&t, 1, MPI_INT, id_process, 0, MPI_COMM_WORLD, &status);
+
+
+
+      MPI_Send(0, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+    }
       break;
     }
   }
