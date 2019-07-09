@@ -50,7 +50,10 @@ void chief_recv(Process *p)
     case CREATE_CODE:
       {
       int test = 0;
+      int name_size;
       std::cout << "[CHIEF] CREATE" << std::endl;
+      MPI_Recv(&name_size, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
       MPI_Send(&test, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
       MPI_Recv(&out_msg, SIZE_FILE, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
       std::cout << "msg: " << out_msg << std::endl;
