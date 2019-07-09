@@ -14,17 +14,17 @@ int create(Process* p, const std::string& name)
   if (p->id ==0)
   {
     std::cout << "in" << std::endl;
-    int code = CREATE;
+    int code = CREATE_CODE;
     auto client = reinterpret_cast<Client*>(p);
     MPI_Send(&code, 1, MPI_INT, p->chief, 0, MPI_COMM_WORLD);
     MPI_Recv(&out_int, 1, MPI_INT, p->chief, 0, MPI_COMM_WORLD, &status);
 
-    MPI_Send(&name_size, 1, MPI_INT, c->chief, 0, MPI_COMM_WORLD);
-    MPI_Recv(&out_int, 1, MPI_INT, p->chief, 0, MPI_COMM_WORL, &status);
+    MPI_Send(&name_size, 1, MPI_INT, p->chief, 0, MPI_COMM_WORLD);
+    MPI_Recv(&out_int, 1, MPI_INT, p->chief, 0, MPI_COMM_WORLD, &status);
 
 
     std::cout << "Reponse: " << out_int << std::endl;
-   MPI_Send(name.c_str(), name.size(), MPI_CHAR, p->chief, 0, MPI_COMM_WORLD);
-   MPI_Recv(&response, 1, MPI_INT, p->chief, 0, MPI_COMM_WORLD, &status);
+    MPI_Send(name.c_str(), name.size(), MPI_CHAR, p->chief, 0, MPI_COMM_WORLD);
+    MPI_Recv(&response, 1, MPI_INT, p->chief, 0, MPI_COMM_WORLD, &status);
   }
 }

@@ -51,22 +51,24 @@ void chief_recv(Process *p)
     }
 
     case CREATE_CODE:
-      {
+    {
       int test = 0;
       int name_size;
       std::cout << "[CHIEF] CREATE" << std::endl;
-      MPI_Recv(&name_size, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
       MPI_Send(&test, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
-      MPI_Recv(&out_msg, SIZE_FILE, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
-      std::cout << "msg: " << out_msg << std::endl;
+      MPI_Recv(&name_size, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      
+      MPI_Send(&test, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
+      char filename[name_size];
+      MPI_Recv(&filename, name_size, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &status);
+      std::cout << "msg: " << filename << std::endl;
       auto search = c->location.find("");
       int value = search->second;
       c->location.erase(search->first);
       c->location.emplace(std::make_pair(out_msg, value));
       MPI_Send(&test, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
       std::cout << "[CHIEF] END OF CREATION" << std::endl;
-      }
+    }
       break;
 
     case REMOVE_CODE:
