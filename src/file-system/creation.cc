@@ -2,7 +2,7 @@
 #include "fs.hh"
 
 
-int create(Process p, const std::string& name)
+int create(Process* p, const std::string& name)
 {
   int out_int;
   int response;
