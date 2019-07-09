@@ -9,19 +9,21 @@ enum
 
 struct Process
 {
-  Process(std::size_t cid, std::size_t csize)
+  Process(std::size_t cid, std::size_t csize, std::size_t cchief)
     : id(cid)
     , size(csize)
+    , chief(cchief)
     {}
   
   const std::size_t id;
   const std::size_t size;
+  const std::size_t chief;
 };
 
 struct Leader : public Process
 {
-  Leader(std::size_t cid, std::size_t csize)
-    : Process(cid, csize)
+  Leader(std::size_t cid, std::size_t csize, std::size_t cchief)
+    : Process(cid, csize, ccshief)
     {}
   
   std::map<std::string, std::size_t> location;
@@ -30,17 +32,14 @@ struct Leader : public Process
 struct Client : public Process
 {
   Client(std::size_t cid, std::size_t csize, std::size_t cchief)
-    : Process(cid, csize)
-    , chief(cchief)
+    : Process(cid, csize, cchief)
     {}
-  
-  std::size_t chief;
 };
 
 struct File : public Process
 {
-  File(std::size_t cid, std::size_t csize)
-    : Process(cid, csize)
+  File(std::size_t cid, std::size_t csize, std::size_t cchief)
+    : Process(cid, csize, cchief)
     , hasNext(false)
     {}
 
