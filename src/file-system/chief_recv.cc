@@ -1,3 +1,5 @@
+#include <mpi.h>
+
 #include "fs.hh"
 
 void chief_recv(Process *p)
@@ -13,13 +15,15 @@ void chief_recv(Process *p)
     switch (action)
     {
     case WRITE_CODE:
+{
       int name_size, content_size;
-      MPI_Recv(&name_size, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_IGNORE_STATUS);
+      MPI_Recv(&name_size, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
       char name[name_size];
-      MPI_Recv(&name, name_size, MPI_BYTE, 0, 0, MPI_COMM_WORLD, MPI_IGNORE_STATUS);
-      MPI_Recv(&content_size, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_IGNORE_STATUS);
+      MPI_Recv(&name, name_size, MPI_BYTE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      MPI_Recv(&content_size, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
       char content[content_size];
-      MPI_Recv(&content, content_size, MPI_BYTE, 0, 0, MPI_COMM_WORLD, MPI_IGNORE_STATUS);
+      MPI_Recv(&content, content_size, MPI_BYTE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+}
       break;
 
     case READ_CODE:

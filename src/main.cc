@@ -24,19 +24,21 @@ int main(int argc, char** argv) {
     int leader = leader_election(rank, size);
     print_info(rank, "End of election");
 
+    Process *p = nullptr;
     if (rank == 0) {
-      auto p = Client(rank, size, leader);
+      p = new Client(rank, size, leader);
     }
 
     else if (rank == leader) {
-      auto p = Leader(rank, size, leader);
+      p = new Leader(rank, size, leader);
     }
 
     else {
-      auto p = File(rank, size, leader);
+      p = new File(rank, size, leader);
     }
 
-
+    //create(rank, )
+    delete p;
     MPI_Finalize();
 
     return 0;
