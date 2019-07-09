@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 template<typename T>
 void print_info(const int rank, const T message) {
