@@ -1,5 +1,10 @@
 #pragma once
 
+#include <string>
+
+#include "process.hh"
+#include "mpi.h"
+
 enum command_code
 {
   READ_CODE,
