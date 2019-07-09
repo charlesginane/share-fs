@@ -8,10 +8,10 @@ enum command_code
   DELETE_CODE
 };
 
-int create(const std::string& name);
+int create(Process p, const std::string& name);
 
-std::string read(const std::string& name);
+std::string read(Process p, const std::string& name);
 
-int write(const std::string& name, const std::string& content);
+int write(Process p, const std::string& name, const std::string& content);
 
-int delete(const std::string& name);
+int delete(Process p, const std::string& name);
