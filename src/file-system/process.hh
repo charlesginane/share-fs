@@ -23,7 +23,7 @@ struct Process
 struct Leader : public Process
 {
   Leader(std::size_t cid, std::size_t csize, std::size_t cchief)
-    : Process(cid, csize, ccshief)
+    : Process(cid, csize, cchief)
     {}
   
   std::map<std::string, std::size_t> location;
