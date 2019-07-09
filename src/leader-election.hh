@@ -5,4 +5,4 @@
 #include "file-system/process.hh"
 #include "print-message.hh"
 
-int leader_election(struct Process p, int size);
+int leader_election(int rank, int size);

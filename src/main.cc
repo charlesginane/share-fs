@@ -10,7 +10,6 @@ int main(int argc, char** argv) {
     int rank, size, len;
 
     char version[MPI_MAX_LIBRARY_VERSION_STRING];
-    struct Process p;
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -21,11 +20,23 @@ int main(int argc, char** argv) {
     }
     MPI_Get_library_version(version, &len);
     print_info(size, "Number of process");
-    p.id = rank;
-    p.size = size;
     print_info(rank, "create process");
-    leader_election(p, size);
+    int leader = leader_election(rank, size);
     print_info(rank, "End of election");
+
+    if (rank == 0) {
+      auto p = Client(rank, size, leader);
+    }
+
+    else if (rank == leader) {
+      auto p = Leader(rank, size);
+    }
+
+    else {
+      auto p = File(rank, size);
+    }
+
+
     MPI_Finalize();
 
     return 0;
