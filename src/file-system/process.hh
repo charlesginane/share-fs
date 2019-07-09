@@ -1,8 +1,10 @@
 #pragma once
 
+#include <map>
+
 enum
 {
-  SIZE_FILE = 100;
+  SIZE_FILE = 100
 };
 
 struct Process
@@ -23,7 +25,7 @@ struct Client : public Process
 
 struct File : public Process
 {
-  char[SIZE_FILE] content;
+  char content[SIZE_FILE];
   bool hasNext;
   std::size_t next;
 };
