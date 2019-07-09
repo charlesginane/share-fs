@@ -12,7 +12,7 @@ void chief_recv(Process *p)
     case WRITE_CODE:
       break;
 
-    case SEND_CODE:
+    case READ_CODE:
       break;
 
     case CREATE_CODE:
