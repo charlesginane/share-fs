@@ -35,7 +35,9 @@ void chief_recv(Process *p)
       break;
 
     case READ_CODE:
-      MPI_Send(0, 1, MPI_INT, 0, 1, MPI_COMM_WORLD);
+    {
+      int t = 0;
+      MPI_Send(&t, 1, MPI_INT, 0, 1, MPI_COMM_WORLD);
 
       MPI_Recv(&out_msg, 100, MPI_CHAR, 0, 1, MPI_COMM_WORLD, &status);
 
@@ -46,6 +48,7 @@ void chief_recv(Process *p)
       MPI_Recv(&out_msg, 100, MPI_CHAR, id_process, 1, MPI_COMM_WORLD, &status);
       MPI_Send(&out_msg, 100, MPI_CHAR, 0, 1, MPI_COMM_WORLD);
       break;
+    }
 
     case CREATE_CODE:
       {
