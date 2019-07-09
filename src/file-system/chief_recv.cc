@@ -29,8 +29,17 @@ void chief_recv(Process *p)
       break;
 
     case CREATE_CODE:
-      break;
+      {
+      MPI_Send(0, 1, MPI_INT, 0, 1, MPI_COMM_WORLD);
+      MPI_Recv(&out_msg, SIZE_FILE, MPI_CHAR, 0, 1, MPI_COMM_WORLD, &status);
 
+      auto search = c->location.find("");
+      int value = search->second;
+      c->location.erase(search->first);
+      c->location.emplace(std::make_pair(out_msg, value));
+      }
+      break;
+	
     case REMOVE_CODE:
       break;
     }
