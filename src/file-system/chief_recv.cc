@@ -1,4 +1,5 @@
 #include <mpi.h>
+#include <iostream>
 
 #include "fs.hh"
 
@@ -15,7 +16,7 @@ void chief_recv(Process *p)
     switch (action)
     {
     case WRITE_CODE:
-{
+    {
       int name_size, content_size;
       MPI_Recv(&name_size, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
       char name[name_size];
@@ -23,7 +24,14 @@ void chief_recv(Process *p)
       MPI_Recv(&content_size, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
       char content[content_size];
       MPI_Recv(&content, content_size, MPI_BYTE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-}
+
+      std::cout << "[CHIEF] WRITE " << name << "(" << name_size << ") " << content << " (" << content_size << ")\n";
+      
+      std::size_t node_number = c->location[std::string(name)];
+
+      MPI_Send(&content_size, 1, MPI_INT, node_number, 0, MPI_COMM_WORLD);
+      MPI_Send(&content, content_size, MPI_BYTE, node_number, 0, MPI_COMM_WORLD);
+    }
       break;
 
     case READ_CODE:
