@@ -4,10 +4,9 @@
 #include "mpi.h"
 
 struct process {
-    bool is_client;
+    int size;
     int id;
-    char* data;
-    int leader;
+    //int leader;
 };
 
 
@@ -19,11 +18,9 @@ int leader_election(struct process p, int size) {
     MPI_Request request;
     if (p.id == 0) {
         MPI_Status status;
-        //MPI_Request request;
         print_info(p.id, "Waiting for leader election");
         MPI_Recv(&omsg, size,  MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
         print_info(p.id, "Getting the leader");
-        p.leader = omsg;
         leader = omsg;
 
     }
@@ -48,14 +45,14 @@ int leader_election(struct process p, int size) {
                 break;
             }
 
-            if (p.leader == imsg) {
+            if (leader == imsg) {
                 break;
             }
 
             omsg = p.id;
             if (imsg < p.id) {
                 omsg = imsg;
-                p.leader = imsg;
+                leader = imsg;
             }
 
 
@@ -90,12 +87,7 @@ int main(int argc, char** argv) {
     MPI_Get_library_version(version, &len);
     print_info(size, "Number of process");
     p.id = rank;
-    p.data = nullptr;
-    if (rank == 0)
-        p.is_client = true;
-    else
-        p.is_client = false;
-    p.leader = -1;
+    p.size = size;
     print_info(rank, "create process");
     leader_election(p, size);
     print_info(rank, "End of election");
