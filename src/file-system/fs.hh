@@ -17,7 +17,7 @@ void chief_recv(Process* p);
 
 int create(Process p, const std::string& name);
 
-std::string read(Process p, const std::string& name);
+std::string read(Process* p, const std::string& name);
 
 int write(Process *p, const std::string& name, const std::string& content);
 
