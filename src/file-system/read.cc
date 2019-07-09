@@ -20,6 +20,7 @@ std::string read(struct Process* p, const std::string& name) {
   else {
     auto p_file = reinterpret_cast<File*>(p);
     MPI_Recv(&out_msg, 100, MPI_CHAR, p_file->chief, 1, MPI_COMM_WORLD, &status);
-    MPI_Send(&content, 100, MPI_CHAR, p_file->chief, 1, MPI_COMM_WORLD);
+    MPI_Send(&p_file->content, 100, MPI_CHAR, p_file->chief, 1, MPI_COMM_WORLD);
   }
+  return out_msg;
 }
