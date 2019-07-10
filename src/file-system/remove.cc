@@ -1,7 +1,7 @@
-#include <fs.hh>
+#include "fs.hh"
+#include <cstring>
 
-
-int remove(Process *p, const, std::string& name)
+int remove(Process *p, const std::string& name)
 {
   int code = REMOVE_CODE;
   int response;
@@ -31,7 +31,7 @@ int remove(Process *p, const, std::string& name)
     //Contact le process
     MPI_Recv(0, 1, MPI_INT, p->chief, 0, MPI_COMM_WORLD, &status);
 
-    std::memset(f->content, Null,  f->process->f->process->size);
+    memset(f->content, 0,  f->size);
 
     MPI_Send(0, 1, MPI_INT, p->chief, 0, MPI_COMM_WORLD);
     
